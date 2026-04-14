@@ -26,6 +26,22 @@ Acesse a aplicação online:
 
 ---
 
+## 🎥 Demonstração
+
+![Demo](./docs/demo.gif)
+
+## 📸 Lighthouse
+
+Resultados obtidos em ambiente de produção (Vercel):
+
+### Página de Produtos
+![Lighthouse Produtos](./docs/lighthouse_produtos.PNG)
+
+### Página de Login
+![Lighthouse Login](./docs/lighthouse_login.PNG)
+
+---
+
 ## 🚀 Tecnologias Utilizadas
 
 * Next.js (App Router)
@@ -232,11 +248,16 @@ npm run dev
 
 ## 📈 Possíveis melhorias futuras
 
-* Uso de `next/image` para otimização de imagens
-* Testes adicionais (integração e cobertura maior)
-* Melhorias de acessibilidade (focus trap no modal)
-* Paginação server-side (se API suportar)
-* Retry/backoff automático na API
+As melhorias abaixo representam evoluções possíveis considerando um cenário de produção:
+
+- Uso de `next/image` para otimização automática de imagens e melhor desempenho
+- Expansão da cobertura de testes (unitários e integração)
+- Implementação de focus trap no modal para melhorar acessibilidade
+- Paginação server-side (caso a API evolua para suportar paginação)
+- Retry com backoff exponencial para maior resiliência em chamadas de API
+- Otimização do Dockerfile com multi-stage build para reduzir o tamanho da imagem final
+- Componentização adicional da página de produtos (ProductCard, ProductModal, etc.)
+
 
 ---
 
@@ -252,12 +273,3 @@ O projeto foi desenvolvido com foco em:
 Além dos requisitos obrigatórios, foram implementados diferenciais como testes automatizados e melhorias de UX.
 
 ---
-## 📸 Lighthouse
-
-Resultados obtidos em ambiente de produção (Vercel):
-
-### Página de Produtos
-![Lighthouse Produtos](./docs/lighthouse_produtos.PNG)
-
-### Página de Login
-![Lighthouse Login](./docs/lighthouse_login.PNG)
