@@ -1,36 +1,261 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ Innovation Brindes - Front-end Case
 
-## Getting Started
+## 📌 Visão Geral
 
-First, run the development server:
+Este projeto consiste em uma aplicação front-end desenvolvida como teste técnico, com foco em autenticação, consumo de API e experiência do usuário na listagem de produtos.
+
+A aplicação permite:
+
+- Login via API
+- Acesso a uma área protegida
+- Listagem de produtos
+- Busca, ordenação e favoritos
+- Visualização detalhada via modal
+- Paginação incremental
+- Tratamento de estados (loading, erro, vazio)
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **React Query (@tanstack/react-query)**
+- **Zustand**
+- **Docker**
+
+---
+
+## 🧠 Arquitetura e Decisões Técnicas
+
+### 1. Estrutura base com Next.js
+
+Foi utilizada a abordagem com **App Router**, por ser a forma mais moderna do Next.js e facilitar:
+
+- Code splitting automático
+- Organização por rotas
+- Uso de Server/Client Components
+
+---
+
+### 2. Autenticação e proteção de rotas
+
+- Login realizado via API externa
+
+- Token armazenado em:
+  - `localStorage` (quando "manter logado")
+  - `sessionStorage` (caso contrário)
+
+- Middleware implementado para:
+  - Bloquear acesso à rota `/produtos` sem autenticação
+  - Redirecionar para `/login` automaticamente
+
+---
+
+### 3. Consumo de API
+
+- Utilização de **React Query** para:
+  - Cache automático
+  - Estados de loading e erro
+  - Revalidação
+
+- Endpoints utilizados:
+  - Login
+  - Listagem de produtos (GET)
+  - Busca de produtos (POST)
+
+---
+
+### 4. Gerenciamento de estado global
+
+Foi utilizado **Zustand** para controle de favoritos:
+
+- Armazena os IDs dos produtos favoritos
+- Persistência em `localStorage`
+- Permite acesso global ao estado
+- Simplifica lógica comparado ao uso exclusivo de `useState`
+
+---
+
+### 5. Listagem de produtos
+
+A listagem foi construída com:
+
+- Grid responsivo (Tailwind)
+- Cards consistentes (altura e alinhamento padronizados)
+- Imagens com `object-contain`
+- Formatação de preço em BRL
+
+---
+
+### 6. Busca com debounce
+
+- Implementado debounce de 400ms
+- Evita chamadas excessivas à API
+- Melhor experiência do usuário
+
+---
+
+### 7. Ordenação
+
+Permite ordenar por:
+
+- Nome (A → Z / Z → A)
+- Preço (menor → maior / maior → menor)
+
+A ordenação é feita em memória após o fetch.
+
+---
+
+### 8. Favoritos
+
+- Toggle via ícone de coração ❤️
+- Persistência local
+- Filtro “Só favoritos”
+- Sincronização com Zustand
+
+---
+
+### 9. Paginação incremental (client-side)
+
+A API não fornece paginação server-side, então foi adotada a estratégia:
+
+- Carregar todos os dados
+- Exibir em lotes (8 itens por vez)
+- Botão **“Carregar mais”**
+- Loading incremental simulado
+
+Isso atende o requisito de paginação sem depender da API.
+
+---
+
+### 10. Modal de detalhes
+
+- Abre ao clicar em “CONFIRA”
+
+- Fecha por:
+  - clique fora
+  - botão fechar
+  - tecla `Esc`
+
+- Acessibilidade:
+  - `role="dialog"`
+  - `aria-modal`
+  - `aria-labelledby`
+
+---
+
+### 11. Estados da UI
+
+#### Loading (Skeleton)
+
+- Skeleton completo na primeira carga
+
+#### Erro
+
+- Mensagem amigável
+- Botão “Tentar novamente”
+
+#### Estado vazio
+
+- Exibido quando não há resultados
+
+---
+
+### 12. Responsividade e UX
+
+- Abordagem mobile-first
+- Layout adaptativo com Tailwind
+- Componentes reorganizam corretamente em telas menores
+
+---
+
+### 13. SEO
+
+- Definição de:
+  - `<title>`
+  - `<meta description>`
+
+- Configuração via `metadata` do Next.js
+
+---
+
+### 14. Docker
+
+A aplicação foi dockerizada para garantir:
+
+- Portabilidade
+- Facilidade de execução
+- Ambiente consistente
+
+---
+
+## 🧪 Como rodar o projeto
+
+### 🔹 Localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 🐳 Com Docker
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker build -t innovation-case .
+docker run -p 3000:3000 innovation-case
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Acesse:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+http://localhost:3000
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📂 Estrutura do Projeto (resumo)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+  login/
+  produtos/
+services/
+store/
+components/
+middleware.ts
+```
+
+---
+
+## 📈 Possíveis melhorias futuras
+
+- Implementar **focus trap completo** no modal
+- Adicionar testes automatizados (unitários e integração)
+- Utilizar `next/image` com fallback de imagem
+- Melhorar tratamento global de erros (ex: interceptor)
+- Implementar paginação server-side (se API suportar)
+
+---
+
+## 🎯 Conclusão
+
+O projeto foi desenvolvido com foco em:
+
+- Clareza de código
+- Separação de responsabilidades
+- Boa experiência do usuário
+- Aderência aos requisitos técnicos
+
+A solução busca equilibrar simplicidade e boas práticas, respeitando as limitações da API fornecida.
+
+---
