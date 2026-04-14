@@ -256,6 +256,10 @@ export default function ProdutosPage() {
                 <img
                   src={product.imagem}
                   alt={product.nome}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/placeholder.png";
+                  }}
                   className="h-56 w-full object-contain bg-gray-50 p-4"
                 />
 
@@ -335,6 +339,10 @@ export default function ProdutosPage() {
                 <img
                   src={selectedProduct.imagem}
                   alt={selectedProduct.nome}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/placeholder.png";
+                  }}
                   className="max-h-72 w-full object-contain"
                 />
               </div>

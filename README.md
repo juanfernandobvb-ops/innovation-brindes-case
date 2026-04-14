@@ -2,228 +2,211 @@
 
 ## 📌 Visão Geral
 
-Este projeto consiste em uma aplicação front-end desenvolvida como teste técnico, com foco em autenticação, consumo de API e experiência do usuário na listagem de produtos.
+Aplicação front-end desenvolvida em **Next.js** como teste técnico, com foco em autenticação, consumo de API e experiência do usuário na listagem de produtos.
 
 A aplicação permite:
 
-- Login via API
-- Acesso a uma área protegida
-- Listagem de produtos
-- Busca, ordenação e favoritos
-- Visualização detalhada via modal
-- Paginação incremental
-- Tratamento de estados (loading, erro, vazio)
+* Login via API
+* Rotas protegidas
+* Listagem de produtos
+* Busca com debounce
+* Ordenação
+* Favoritos persistidos
+* Modal de detalhes
+* Paginação incremental
+* Tratamento de estados (loading, erro, vazio)
+
+---
+
+## 🔗 Deploy
+
+Acesse a aplicação online:
+
+👉 https://innovation-brindes-case.vercel.app/
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-- **Next.js (App Router)**
-- **TypeScript**
-- **Tailwind CSS**
-- **React Query (@tanstack/react-query)**
-- **Zustand**
-- **Docker**
+* Next.js (App Router)
+* TypeScript
+* Tailwind CSS
+* React Query
+* Zustand
+* Vitest + React Testing Library
+* Playwright (E2E)
+* Docker
 
 ---
 
 ## 🧠 Arquitetura e Decisões Técnicas
 
-### 1. Estrutura base com Next.js
+### 🔐 Autenticação e Proteção de Rotas
 
-Foi utilizada a abordagem com **App Router**, por ser a forma mais moderna do Next.js e facilitar:
+* Login via API externa
+* Token armazenado em:
 
-- Code splitting automático
-- Organização por rotas
-- Uso de Server/Client Components
+  * `localStorage` (manter logado)
+  * `sessionStorage` (sessão)
+* Middleware para:
 
----
-
-### 2. Autenticação e proteção de rotas
-
-- Login realizado via API externa
-
-- Token armazenado em:
-  - `localStorage` (quando "manter logado")
-  - `sessionStorage` (caso contrário)
-
-- Middleware implementado para:
-  - Bloquear acesso à rota `/produtos` sem autenticação
-  - Redirecionar para `/login` automaticamente
+  * bloquear `/produtos` sem autenticação
+  * redirecionar automaticamente para `/login`
 
 ---
 
-### 3. Consumo de API
+### 🌐 Consumo de API
 
-- Utilização de **React Query** para:
-  - Cache automático
-  - Estados de loading e erro
-  - Revalidação
+* React Query para:
 
-- Endpoints utilizados:
-  - Login
-  - Listagem de produtos (GET)
-  - Busca de produtos (POST)
+  * cache
+  * loading
+  * erro
+  * revalidação
 
 ---
 
-### 4. Gerenciamento de estado global
+### 🧩 Gerenciamento de Estado
 
-Foi utilizado **Zustand** para controle de favoritos:
+* Zustand para favoritos:
 
-- Armazena os IDs dos produtos favoritos
-- Persistência em `localStorage`
-- Permite acesso global ao estado
-- Simplifica lógica comparado ao uso exclusivo de `useState`
-
----
-
-### 5. Listagem de produtos
-
-A listagem foi construída com:
-
-- Grid responsivo (Tailwind)
-- Cards consistentes (altura e alinhamento padronizados)
-- Imagens com `object-contain`
-- Formatação de preço em BRL
+  * armazenamento global
+  * persistência em `localStorage`
+  * acesso simplificado
 
 ---
 
-### 6. Busca com debounce
+### 🔍 Busca com Debounce
 
-- Implementado debounce de 400ms
-- Evita chamadas excessivas à API
-- Melhor experiência do usuário
-
----
-
-### 7. Ordenação
-
-Permite ordenar por:
-
-- Nome (A → Z / Z → A)
-- Preço (menor → maior / maior → menor)
-
-A ordenação é feita em memória após o fetch.
+* Delay de 400ms
+* Evita chamadas excessivas
+* Melhor UX
 
 ---
 
-### 8. Favoritos
+### 📊 Ordenação
 
-- Toggle via ícone de coração ❤️
-- Persistência local
-- Filtro “Só favoritos”
-- Sincronização com Zustand
+* Nome (A-Z / Z-A)
+* Preço (menor → maior / maior → menor)
 
 ---
 
-### 9. Paginação incremental (client-side)
+### ❤️ Favoritos
 
-A API não fornece paginação server-side, então foi adotada a estratégia:
-
-- Carregar todos os dados
-- Exibir em lotes (8 itens por vez)
-- Botão **“Carregar mais”**
-- Loading incremental simulado
-
-Isso atende o requisito de paginação sem depender da API.
+* Toggle via botão
+* Persistência local
+* Filtro “somente favoritos”
 
 ---
 
-### 10. Modal de detalhes
+### 📄 Paginação Incremental
 
-- Abre ao clicar em “CONFIRA”
+Como a API não possui paginação:
 
-- Fecha por:
-  - clique fora
-  - botão fechar
-  - tecla `Esc`
-
-- Acessibilidade:
-  - `role="dialog"`
-  - `aria-modal`
-  - `aria-labelledby`
+* Dados carregados integralmente
+* Exibição em lotes (8 itens)
+* Botão "Carregar mais"
 
 ---
 
-### 11. Estados da UI
+### 🪟 Modal de Detalhes
 
-#### Loading (Skeleton)
+* Abre via botão "CONFIRA"
+* Fecha com:
 
-- Skeleton completo na primeira carga
-
-#### Erro
-
-- Mensagem amigável
-- Botão “Tentar novamente”
-
-#### Estado vazio
-
-- Exibido quando não há resultados
+  * clique fora
+  * botão
+  * tecla `Esc`
+* Acessibilidade com `role="dialog"` e atributos ARIA
 
 ---
 
-### 12. Responsividade e UX
+### 🖼️ Tratamento de Imagens
 
-- Abordagem mobile-first
-- Layout adaptativo com Tailwind
-- Componentes reorganizam corretamente em telas menores
-
----
-
-### 13. SEO
-
-- Definição de:
-  - `<title>`
-  - `<meta description>`
-
-- Configuração via `metadata` do Next.js
+* Fallback com `onError`
+* Exibe placeholder caso imagem falhe
 
 ---
 
-### 14. Docker
+### 🎛️ Estados da UI
 
-A aplicação foi dockerizada para garantir:
-
-- Portabilidade
-- Facilidade de execução
-- Ambiente consistente
+* Skeleton de carregamento
+* Tela de erro com retry
+* Estado vazio
 
 ---
 
-## 🧪 Como rodar o projeto
+### 📱 Responsividade
 
-### 🔹 Localmente
+* Mobile-first
+* Grid adaptativo com Tailwind
+
+---
+
+### 🔎 SEO
+
+* `<title>` e `<meta description>` configurados
+
+---
+
+## 🧪 Testes (Diferencial)
+
+### ✔ Teste Unitário
+
+* Vitest + React Testing Library
+* Valida renderização da tela de login
+
+Rodar:
 
 ```bash
-npm install
-npm run dev
-```
-
-Acesse:
-
-```
-http://localhost:3000
+npm run test
 ```
 
 ---
 
-### 🐳 Com Docker
+### ✔ Teste E2E (Smoke)
+
+* Playwright
+* Fluxo validado:
+
+  * login → redirecionamento → grid
+
+Rodar:
+
+```bash
+npx playwright test
+```
+
+---
+
+## 🐳 Docker
+
+### Build:
 
 ```bash
 docker build -t innovation-case .
+```
+
+### Run:
+
+```bash
 docker run -p 3000:3000 innovation-case
-```
-
-Acesse:
-
-```
-http://localhost:3000
 ```
 
 ---
 
-## 📂 Estrutura do Projeto (resumo)
+## 🧪 Lighthouse
+
+Resultados (Desktop):
+
+* Performance: 98
+* Accessibility: 90
+* Best Practices: 96
+* SEO: 100
+
+---
+
+## 📂 Estrutura do Projeto
 
 ```
 app/
@@ -231,19 +214,29 @@ app/
   produtos/
 services/
 store/
+e2e/
 components/
 middleware.ts
 ```
 
 ---
 
+## 🚀 Como rodar localmente
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
 ## 📈 Possíveis melhorias futuras
 
-- Implementar **focus trap completo** no modal
-- Adicionar testes automatizados (unitários e integração)
-- Utilizar `next/image` com fallback de imagem
-- Melhorar tratamento global de erros (ex: interceptor)
-- Implementar paginação server-side (se API suportar)
+* Uso de `next/image` para otimização de imagens
+* Testes adicionais (integração e cobertura maior)
+* Melhorias de acessibilidade (focus trap no modal)
+* Paginação server-side (se API suportar)
+* Retry/backoff automático na API
 
 ---
 
@@ -251,11 +244,11 @@ middleware.ts
 
 O projeto foi desenvolvido com foco em:
 
-- Clareza de código
-- Separação de responsabilidades
-- Boa experiência do usuário
-- Aderência aos requisitos técnicos
+* Clareza e organização de código
+* Experiência do usuário
+* Boas práticas modernas do ecossistema React/Next.js
+* Aderência aos requisitos técnicos
 
-A solução busca equilibrar simplicidade e boas práticas, respeitando as limitações da API fornecida.
+Além dos requisitos obrigatórios, foram implementados diferenciais como testes automatizados e melhorias de UX.
 
 ---
