@@ -46,9 +46,9 @@ export default function ProdutosPage() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  useEffect(() => {
-    setVisibleCount(ITEMS_PER_PAGE);
-  }, [debouncedSearch, sortBy, showFavoritesOnly]);
+  // useEffect(() => {
+  //   setVisibleCount(ITEMS_PER_PAGE);
+  // }, [debouncedSearch, sortBy, showFavoritesOnly]);
 
   const {
     data: products,
@@ -105,6 +105,21 @@ export default function ProdutosPage() {
     sessionStorage.removeItem("token");
     document.cookie = "token=; path=/; max-age=0";
     router.replace("/login");
+  }
+
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(e.target.value);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }
+
+  function handleSortChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setSortBy(e.target.value);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }
+
+  function handleToggleFavoritesOnly() {
+    setShowFavoritesOnly((prev) => !prev);
+    setVisibleCount(ITEMS_PER_PAGE);
   }
 
   if (isLoading) {
@@ -194,13 +209,13 @@ export default function ProdutosPage() {
             type="text"
             placeholder="Buscar produto..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
             className="w-full max-w-md rounded-full border border-gray-300 bg-white px-4 py-2 text-gray-800 placeholder:text-gray-400 outline-none shadow-sm focus:ring-2 focus:ring-lime-500"
           />
 
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+            onChange={handleSortChange}
             className="rounded-full border border-gray-300 bg-white px-4 py-2 text-gray-800 outline-none shadow-sm focus:ring-2 focus:ring-lime-500"
           >
             <option value="default">Ordenar por</option>
@@ -211,7 +226,7 @@ export default function ProdutosPage() {
           </select>
           {/* ⭐ FILTRO FAVORITOS */}
           <button
-            onClick={() => setShowFavoritesOnly((prev) => !prev)}
+            onClick={handleToggleFavoritesOnly}
             className="rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 shadow-sm hover:bg-gray-100"
           >
             {showFavoritesOnly ? "Mostrar todos" : "Só favoritos"}
