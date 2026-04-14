@@ -252,3 +252,12 @@ O projeto foi desenvolvido com foco em:
 Além dos requisitos obrigatórios, foram implementados diferenciais como testes automatizados e melhorias de UX.
 
 ---
+## 📸 Lighthouse
+
+Resultados obtidos em ambiente de produção (Vercel):
+
+### Página de Produtos
+![Lighthouse Produtos](./docs/lighthouse_produtos.PNG)
+
+### Página de Login
+![Lighthouse Login](./docs/lighthouse_login.PNG)
